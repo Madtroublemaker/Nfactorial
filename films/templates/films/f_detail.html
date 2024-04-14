@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <h1>{{film.title}}</h1>
+    
+    <div class="row">
+        <div class="col-4">
+            <img class="img-fluid" src="{{film.poster}}" alt="">
+        </div>
+        <div class="col-8">
+            <p>
+                {% for genre in genres %}
+                    <span class="badge rounded-pill text-bg-primary">{{genre}}</span>
+                {% endfor %}
+            </p>
+            <p>{{film.released|date:"Y"}} - {{film.certificate}} - {{dura}}</p>
+            <p>{{film.overview}}</p>
+            <br>
+            <div class="alert alert-light" role="alert">
+                <div class="row">
+                    <div class="col col-3">
+                        IMDB Rating: 
+                    </div>
+                    <div class="col col-3">
+                        <p><i class="bi bi-star-fill text-warning"></i> {{film.average_rating|floatformat:1}}/10</p>
+                        <p class="small"> Reviews: {{film.No_votes}}</p>
+                    </div>
+                    <div class="col col-6">
+                        Your Rating: 
+                        <div id="user_rating">
+                            {% if rating %}                            
+                                <i class="bi bi-star-fill text-primary"></i> <span class="mx-3">{{rating.rating}}</span>
+                            {% else %}
+                                <div x-data="{showModal: false}" x-on:keydown.escape="showModal=false" x-on:click.away="showModal = false">
+                                    {% if request.user.is_authenticated %}
+                                        <button on.click="showModal = true" class="btn btn-outline-primary" data-bs-toggle="#vote_modal">
+                                            <i class="bi bi-star text-warning"></i> <span class="mx-3">Rate</span>
+                                        </button>
+                                    {% else %}
+                                        <a class="btn btn-outline-primary" href="{% url 'login' %}">
+                                            <i class="bi bi-star text-warning"></i> <span class="mx-3">Rate</span>
+                                        </a>
+                                    {% endif %}
+                                    
+                                    
+                                    <div x-show="showModal" class="modal modal-dialog-centered" id="vote_modal" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h1 class="modal-title fs-5 text-align-content-center"><span class="text-warning">RATE: </span>{{film.title}}</h1>
+                                              <button type="button" class="btn-close" x-on:click="showModal=false" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row d-flex justify-content-center">
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat1" value="1"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML' class="btn btn-primary"> </form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat2" value="2"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat3" value="3"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat4" value="4"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat5" value="5"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat6" value="6"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat7" value="7"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat8" value="8"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat9" value="9"   name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>
+                                                    <div class="col-1"><form hx-post="{{request.path}}"> <input type="hidden" name="film" id="film" value="{{film.id}}"> <input type="submit" id="rat10" value="10" name="rating" hx-post="{% url 'films:f_detail' film.id %}" hx-target='#user_rating' hx-swap='innerHTML'  class="btn btn-primary"></form></div>   
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-warning" x-on:click="showModal=false">Cancel</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <br>
+
+            <h2>Top Cast</h2>
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item">{{film.star1}}</li>
+                <li class="list-group-item">{{film.star2}}</li>
+                <li class="list-group-item">{{film.star3}}</li>
+                <li class="list-group-item">{{film.star4}}</li>
+            </ul>
+            <br>
+            <h5>Director: {{film.director}}</h5>
+        </div>
+    </div>
+    
+    
+{% endblock content %}
