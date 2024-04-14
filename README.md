@@ -52,3 +52,4 @@ Users can add reviews for films by providing ratings.
 For testing purposes, random reviews can be generated using the add_reviews view.
 
 
+<img width="1512" alt="Screenshot 2024-04-14 at 12 05 26" src="https://github.com/Madtroublemaker/Nfactorial/assets/123051818/719476a9-0aa5-4438-9a03-968e1ead02b9">
